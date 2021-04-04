@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %} Verify {% endblock %}
+
+{% block content %}
+<p>Please Enter your code that in your sms</p>
+<form action="{% url 'account:verify_code' %}" class="form-control" method="POST">
+{% csrf_token %}
+{{form.as_p}}
+<input type="submit" class="btn btn-primary" value="Verify">
+</form>
+{% endblock %}

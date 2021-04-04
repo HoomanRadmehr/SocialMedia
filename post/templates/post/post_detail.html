@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  post detail
+{%endblock%}
+
+{% block content %}
+<div class="jumbotron">
+  <div class="card">
+      <h3 class="card-header">{{post.user|capfirst}}</h3>
+      <small class="card-header">{{post.created | date}}</small>
+      <div class="card-body">{{post.body | safe}}</div>
+  </div>
+  <br>
+  {% if owner %}
+    <a href="{% url 'post:edit_post' post.id user.id %}">Edit Post </a> <span> | </span>
+    <a href="{% url 'post:delete_post' post.id user.id %}"> Delete Post</a><span> | </span>
+
+  {% endif %}
+  <a href="{% url 'post:like_post' post.id request.user.id %}"><input type="submit"  class='btn btn-{{tag}} mx-5' value="{{value}}({{count}})"></a>
+  <a href="{% url 'post:add_comment' post.id user.id %}"><input type="submit"  class= 'btn btn-primary' value='Comment'></a>
+  <hr>
+    <p>This post has {{comments.count}} comments</p>
+  {% for comment in comments%}
+  <div class="card">
+    <div class="card-header bg-dark text-white">
+      <a href='{% url "account:user_dashboard" comment.user.id %}'>{{comment.user|capfirst}}</a>
+    </div>
+    <div class="card-body">
+      <p>{{comment.body|safe}}</p> 
+      <a href="{% url 'post:add_reply' post.id comment.id user.id %}">Reply</a>
+      <br>
+      {% for reply in comment.rcomment.all %}
+      <div class="bg-primary text-white p-3 m-3">
+        {{reply.user|capfirst}}<br><hr>{{reply.body|safe}}
+      </div>
+      {%endfor%}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

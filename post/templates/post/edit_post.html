@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %} Edit Post {% endblock %}
+
+{% block content %}
+<form action="{% url 'post:edit_post' post.id user.id %}" method="POST">
+    {% csrf_token %}
+    {{form.media}}
+    {{form.as_p}}
+    <input type="submit" class="btn btn-primary" value="Edit">
+</form>
+{% endblock %}

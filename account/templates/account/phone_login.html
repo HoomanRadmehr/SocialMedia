@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %} Phone Login {% endblock %}
+
+{% block content %}
+
+<p>Please Enter Your Phone number. <br>
+We send you a sms that include verfiy code after you submit your phone number <br><br></p>
+
+<form action="{% url 'account:phone_login' %}" method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" method='POST' class="btn btn-primary" value="Submit">
+</form>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Add reply
+{% endblock %}
+
+{% block content %}
+<form action="{% url 'post:add_reply' post_id comment_id user_id %}" class="form-control" method="POST">
+    {% csrf_token %}
+    {{form.media}}
+    {{form.as_p}}
+    <input type="submit" class="btn btn-primary" value="Add">
+</form>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block link %}
+<link rel="stylesheet" href="{% static 'css/dashboard/style.css'%}">
+{% endblock %}
+{% block title %} {{user.username|capfirst}} profile {% endblock %}
+
+{% block content %}
+<div class="jumbotron card">
+  {% if profile.image %}
+    <img src="{{profile.image.url}}" alt="image" width = 200px height= 200px style='display: block ; margin:auto; border-radius: 50%;'>
+  {% endif %}
+    <h3 class='text-center'>{{user.username|capfirst}}</h3>
+    <h6 class='text-center' >{{ profile.bio|safe}}</h6><br><br>
+    {% if owner %}
+    <a href="{% url 'post:add_post' request.user.id %}" style="display:inline">+ Add post </a>
+    <a href="{% url 'account:edit_profile' request.user.id %}" style='display:inline'>Edit profile</a>
+    {% else %}
+    <a href="{% url 'account:follow_user' request.user.id user.id %}"><input type="submit" class='btn btn-{{tag}}' style='display: block ; margin: auto;' value="{{value}}"></a>
+    {% endif %}
+    {% for post in posts %}
+    <div class="jombotron text-center" ><p class="card-body" >{{post.body|safe}}</p></div>
+    {% if owner %}
+    <a href="{% url 'post:edit_post' post.id user.id %}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+        <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+      </svg></a>
+    <a href="{% url 'post:delete_post' post.id user.id %}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+      </svg></a>
+    <a href="{{post.get_absolute_url}}"> More details</a>
+    {% else %}
+    <a href="{{post.get_absolute_url}}"> More details</a>
+    {% endif %}
+    {% empty %} <p>{{user.username}}'s profile has no post yet </p>
+    {% endfor %}
+    <br>
+</div>
+{% endblock %}

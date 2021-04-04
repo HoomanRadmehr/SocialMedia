@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %} Delete Post {% endblock %}
+
+{% block content %}
+<form  action="{% url 'post:delete_post' post.id user.id %}" method="POST">
+    {% csrf_token %}
+    <h3 style="color: red;">ARE YOU SURE YOU WANT TO DELETE THIS POST ???</h3>
+    {{post.body|safe}}
+    <br>
+    <br>
+    
+    <input type="submit" class="btn btn-primary" value="Delete">
+</form>
+{% endblock %}
